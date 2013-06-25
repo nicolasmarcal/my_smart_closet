@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id_android: 
+  nome: MyString
+  email: MyString
+  senha: MyString
+  data_nasc: 2013-05-19 16:17:08
+  cor_cabelo_id: 
+  cor_olhos_id: 
+  peso: 9.99
+  altura: 9.99
+
+two:
+  id_android: 
+  nome: MyString
+  email: MyString
+  senha: MyString
+  data_nasc: 2013-05-19 16:17:08
+  cor_cabelo_id: 
+  cor_olhos_id: 
+  peso: 9.99
+  altura: 9.99
