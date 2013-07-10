@@ -25,6 +25,7 @@ class Look < ActiveRecord::Base
   		self.usuario.ocasiao_trabalho
   	else
   		self.destino.ocasiao
+  		
   	end
   end
 
