@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130519194554) do
+ActiveRecord::Schema.define(:version => 20130709234857) do
 
   create_table "cors", :force => true do |t|
     t.string   "descricao"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20130519194554) do
     t.string   "descricao"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "ocasiao_id"
   end
 
   create_table "estilos", :force => true do |t|
@@ -64,6 +65,13 @@ ActiveRecord::Schema.define(:version => 20130519194554) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "modelo_roupas", :force => true do |t|
+    t.string   "descricao"
+    t.integer  "tipo_roupa_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
   create_table "ocasiaos", :force => true do |t|
     t.string   "descricao"
     t.string   "tipo_ocasiao"
@@ -81,12 +89,25 @@ ActiveRecord::Schema.define(:version => 20130519194554) do
     t.string   "caminho_imagem"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.integer  "ocasiao_id"
+    t.integer  "tipo_roupa_id"
   end
 
   add_index "peca_de_roupas", ["estilo_id"], :name => "index_peca_de_roupas_on_estilo_id"
   add_index "peca_de_roupas", ["marca_id"], :name => "index_peca_de_roupas_on_marca_id"
   add_index "peca_de_roupas", ["material_id"], :name => "index_peca_de_roupas_on_material_id"
   add_index "peca_de_roupas", ["usuario_id"], :name => "index_peca_de_roupas_on_usuario_id"
+
+  create_table "peca_de_roupas_tipo_corpos", :force => true do |t|
+    t.integer "peca_de_roupas_id"
+    t.integer "tipo_corpos_id"
+  end
+
+  create_table "tipo_corpos", :force => true do |t|
+    t.string   "descricao"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "tipo_roupas", :force => true do |t|
     t.string   "descricao"
@@ -103,10 +124,14 @@ ActiveRecord::Schema.define(:version => 20130519194554) do
     t.datetime "data_nasc"
     t.integer  "cor_cabelo_id"
     t.integer  "cor_olhos_id"
-    t.decimal  "peso",          :precision => 10, :scale => 2
-    t.decimal  "altura",        :precision => 10, :scale => 2
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
+    t.decimal  "peso",                    :precision => 10, :scale => 2
+    t.decimal  "altura",                  :precision => 10, :scale => 2
+    t.datetime "created_at",                                             :null => false
+    t.datetime "updated_at",                                             :null => false
+    t.integer  "ocasiao_trabalho_id"
+    t.integer  "importancia_temperatura"
+    t.integer  "importancia_humor"
+    t.integer  "tipo_corpo_id"
   end
 
   add_index "usuarios", ["cor_cabelo_id"], :name => "index_usuarios_on_cor_cabelo_id"

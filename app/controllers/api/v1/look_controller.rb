@@ -14,4 +14,18 @@ class Api::V1::LookController < ApplicationController
 
 		render :json => @look.to_json
 	end
+
+	def gerar_look
+		@look = Look.new
+		
+		@look.usuario_id = params[:usuario_id]
+		@look.destino_id = params[:destino_id]
+		@look.ocasiao_id = params[:ocasiao_id]
+		@look.temperatura = params[:temperatura]
+		@look.humor_usuario = params[:humor]
+
+		if @look.valid?
+			@look.gerar_look
+		end
+	end
 end
