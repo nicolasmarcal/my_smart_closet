@@ -24,8 +24,10 @@ class Api::V1::LookController < ApplicationController
 		@look.temperatura = params[:temperatura]
 		@look.humor_usuario = params[:humor]
 
-		if @look.valid?
+		if @look.save
 			@look.gerar_look
 		end
+
+		render :json => @look.to_json
 	end
 end

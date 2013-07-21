@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  faixa_min: 1
+  faixa_max: 1
+  classificacao_temperatura: MyString
+  usuario: 
+
+two:
+  faixa_min: 1
+  faixa_max: 1
+  classificacao_temperatura: MyString
+  usuario: 

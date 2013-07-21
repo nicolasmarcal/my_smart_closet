@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130709234857) do
+ActiveRecord::Schema.define(:version => 20130720212650) do
 
   create_table "cors", :force => true do |t|
     t.string   "descricao"
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(:version => 20130709234857) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "faixa_temperaturas", :force => true do |t|
+    t.decimal  "faixa_min",                 :precision => 10, :scale => 2
+    t.decimal  "faixa_max",                 :precision => 10, :scale => 2
+    t.string   "classificacao_temperatura"
+    t.integer  "usuario_id"
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
+  end
+
+  add_index "faixa_temperaturas", ["usuario_id"], :name => "index_faixa_temperaturas_on_usuario_id"
 
   create_table "looks", :force => true do |t|
     t.integer  "usuario_id"
@@ -72,6 +83,11 @@ ActiveRecord::Schema.define(:version => 20130709234857) do
     t.datetime "updated_at",    :null => false
   end
 
+  create_table "modelo_roupas_tipo_corpos", :force => true do |t|
+    t.integer "tipo_corpo_id"
+    t.integer "modelo_roupa_id"
+  end
+
   create_table "ocasiaos", :force => true do |t|
     t.string   "descricao"
     t.string   "tipo_ocasiao"
@@ -87,10 +103,11 @@ ActiveRecord::Schema.define(:version => 20130709234857) do
     t.integer  "marca_id"
     t.integer  "material_id"
     t.string   "caminho_imagem"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.integer  "ocasiao_id"
     t.integer  "tipo_roupa_id"
+    t.string   "classificacao_temperatura"
   end
 
   add_index "peca_de_roupas", ["estilo_id"], :name => "index_peca_de_roupas_on_estilo_id"
@@ -132,6 +149,7 @@ ActiveRecord::Schema.define(:version => 20130709234857) do
     t.integer  "importancia_temperatura"
     t.integer  "importancia_humor"
     t.integer  "tipo_corpo_id"
+    t.string   "sexo"
   end
 
   add_index "usuarios", ["cor_cabelo_id"], :name => "index_usuarios_on_cor_cabelo_id"
