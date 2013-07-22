@@ -5,6 +5,7 @@ class PecaDeRoupa < ActiveRecord::Base
   belongs_to :material
   belongs_to :ocasiao, :class_name => "Ocasiao", :foreign_key => "ocasiao_id"
   belongs_to :tipo_roupa, :class_name => "TipoRoupa", :foreign_key => "tipo_roupa_id"
+  belongs_to :cor, :class_name => "Cor", :foreign_key => "cor_id"
   has_and_belongs_to_many :looks
   has_and_belongs_to_many :tipo_corpos
 
@@ -16,5 +17,37 @@ class PecaDeRoupa < ActiveRecord::Base
                                                   .where("tipo_corpos.descricao = ?", tipo_corpo)}
   scope :do_usuario, lambda{|usuario_id| where(:usuario_id => usuario_id)}
   scope :para_o_clima, lambda{ |cod_temperatura| where(:classificacao_temperatura => cod_temperatura) }
+  scope :vestidos, joins(:tipo_roupa).where("tipo_roupas.descricao = 'Vestido'")
+  scope :sapatos, joins(:tipo_roupa).where("tipo_roupas.descricao = 'Sapato'")
+  scope :com_cor, lambda{ |cor_id| where(:cor_id => cor_id)}
+  scope :sem_estampa, where(:estampada => false)
+
+  def self.tem_estampa?(roupas)
+    tem = false
+    roupas.each do |roupa|
+      if roupa.estampada?
+        tem = true
+      end
+    end
+    tem
+  end
+
+  def self.tem_vestido?(roupas)
+    tem = false
+    roupas.each do |roupa|
+      if roupa.tipo_roupa.vestido?
+        tem = true
+      end
+    end
+    tem
+  end
+
+  def self.menos_usada(roupas)
+    usadas = []
+    roupas.each do |roupa|
+      usadas << [roupa, roupa.looks.count]
+    end
+    usadas.sort_by { |i| i[1] }.reverse.first
+  end
 
 end

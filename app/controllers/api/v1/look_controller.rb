@@ -23,6 +23,8 @@ class Api::V1::LookController < ApplicationController
 		@look.ocasiao_id = params[:ocasiao_id]
 		@look.temperatura = params[:temperatura]
 		@look.humor_usuario = params[:humor]
+		@look.vestido = params[:vestido]
+		
 
 		if @look.save
 			@look.gerar_look

@@ -5,5 +5,5 @@ class FaixaTemperatura < ActiveRecord::Base
   QUENTE = "QUENTE"
   NORMAL = "NORMAL"
   FRIO = "FRIO"
-  MUITO_FRIO = "FRIO"
+  MUITO_FRIO = "MUITO_FRIO"
 end

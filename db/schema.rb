@@ -11,14 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130720212650) do
+ActiveRecord::Schema.define(:version => 20130722003009) do
 
   create_table "cors", :force => true do |t|
     t.string   "descricao"
     t.string   "tipo_cor"
     t.string   "rgb"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.integer  "proxima_cor_id"
   end
 
   create_table "destinos", :force => true do |t|
@@ -53,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20130720212650) do
     t.string   "humor_usuario"
     t.datetime "created_at",                                   :null => false
     t.datetime "updated_at",                                   :null => false
+    t.boolean  "vestido"
   end
 
   add_index "looks", ["destino_id"], :name => "index_looks_on_destino_id"
@@ -108,6 +110,8 @@ ActiveRecord::Schema.define(:version => 20130720212650) do
     t.integer  "ocasiao_id"
     t.integer  "tipo_roupa_id"
     t.string   "classificacao_temperatura"
+    t.integer  "cor_id"
+    t.boolean  "estampada"
   end
 
   add_index "peca_de_roupas", ["estilo_id"], :name => "index_peca_de_roupas_on_estilo_id"

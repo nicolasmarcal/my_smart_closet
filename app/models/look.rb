@@ -9,23 +9,40 @@ class Look < ActiveRecord::Base
 
   def gerar_look
   	@roupas = PecaDeRoupa.scoped
+    @roupas = @roupas.do_usuario self.usuario
   	@roupas = @roupas.para_o_tipo_de_corpo self.usuario.tipo_corpo.descricao
   	@roupas = @roupas.para_ocasiao get_ocasiao
-
+    @composicao = []
+    @temperatura = self.usuario.get_faixa_temperatura(self.temperatura)
   	self.usuario.carregar_importancias_look.each do |importancia|
   		case importancia
   		when "temperatura"
-  			@roupas = PecaDeRoupa.find(@roupas.collect{ |r| r.id }).para_o_clima self.usuario.get_faixa_temperatura(self.temperatura)
+  			@roupas = PecaDeRoupa.where(:id => @roupas.collect{ |r| r.id }).para_o_clima @temperatura
   		when "humor"
-  			@roupas = PecaDeRoupa.find(@roupas.collect{ |r| r.id }).para_humor self.humor_usuario
+  			@roupas = PecaDeRoupa.where(:id => @roupas.collect{ |r| r.id }).para_humor self.humor_usuario
   		end
   	end
 
     if self.usuario.sexo = "F"
-      
+      if self.vestido? and PecaDeRoupa.tem_vestido?(@roupas)
+        @composicao << PecaDeRoupa.menos_usada(PecaDeRoupa.vestidos.where(:id => @roupas.collect{ |r| r.id }))
+        @cores = Cor.cores_harmonicas @composicao.first.cor
+        @composicao << PecaDeRoupa.menos_usada(PecaDeRoupa.sapatos.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id}))
+        if @temperatura == FaixaTemperatura::FRIO || @temperatura == FaixaTemperatura::MUITO_FRIO || @temperatura == FaixaTemperatura::NORMAL
+          if PecaDeRoupa.tem_estampa?(@composicao)
+            @composicao << PecaDeRoupa.menos_usada(PecaDeRoupa.casacos.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id}))
+          else
+            @composicao << PecaDeRoupa.menos_usada(PecaDeRoupa.casacos.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id}).sem_estampa)
+          end
+        end
+      else
+        
+      end
     else
 
     end
+
+    self.peca_de_roupas = @composicao
   end
 
   def get_ocasiao
