@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130722003009) do
+ActiveRecord::Schema.define(:version => 20130801001959) do
 
   create_table "cors", :force => true do |t|
     t.string   "descricao"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(:version => 20130722003009) do
     t.string   "classificacao_temperatura"
     t.integer  "cor_id"
     t.boolean  "estampada"
+    t.integer  "modelo_roupa_id"
   end
 
   add_index "peca_de_roupas", ["estilo_id"], :name => "index_peca_de_roupas_on_estilo_id"

@@ -1,4 +1,5 @@
 class PecaDeRoupa < ActiveRecord::Base
+  attr_accessible :id_android, :descricao, :usuario_id, :estilo_id, :marca_id, :material_id, :caminho_imagem, :ocasiao_id, :tipo_roupa_id, :classificacao_temperatura, :cor_id, :estampada, :modelo_roupa_id
   belongs_to :usuario
   belongs_to :estilo
   belongs_to :marca
@@ -10,23 +11,27 @@ class PecaDeRoupa < ActiveRecord::Base
   has_and_belongs_to_many :tipo_corpos
 
   scope :para_ocasiao, lambda{|ocasiao_id| where(:ocasiao_id => ocasiao_id)}
-  scope :para_o_tipo_de_corpo, lambda{|tipo_corpo| joins("inner join tipo_roupas on tipo_roupas.id = peca_de_roupas.id")
+  scope :para_o_tipo_de_corpo, lambda{|tipo_corpo| joins("inner join tipo_roupas on tipo_roupas.id = peca_de_roupas.tipo_roupa_id")
                                                   .joins("inner join modelo_roupas on tipo_roupas.id = modelo_roupas.tipo_roupa_id")
                                                   .joins("inner join modelo_roupas_tipo_corpos on modelo_roupas_tipo_corpos.modelo_roupa_id = modelo_roupas.id")
                                                   .joins("inner join tipo_corpos on tipo_corpos.id = modelo_roupas_tipo_corpos.tipo_corpo_id")
                                                   .where("tipo_corpos.descricao = ?", tipo_corpo)}
   scope :do_usuario, lambda{|usuario_id| where(:usuario_id => usuario_id)}
   scope :para_o_clima, lambda{ |cod_temperatura| where(:classificacao_temperatura => cod_temperatura) }
-  scope :vestidos, joins(:tipo_roupa).where("tipo_roupas.descricao = 'Vestido'")
-  scope :sapatos, joins(:tipo_roupa).where("tipo_roupas.descricao = 'Sapato'")
+  scope :vestidos, joins(:tipo_roupa).where("tipo_roupas.tipo_roupa = 'VESTIDO'")
+  scope :sapatos, joins(:tipo_roupa).where("tipo_roupas.tipo_roupa = 'SAPATO'")
   scope :com_cor, lambda{ |cor_id| where(:cor_id => cor_id)}
   scope :sem_estampa, where(:estampada => false)
+  scope :casacos, joins("inner join tipo_roupas on tipo_roupas.id = peca_de_roupas.tipo_roupa_id")
+                  .where("tipo_roupas.tipo_roupa = 'CASACO' ")
 
   def self.tem_estampa?(roupas)
     tem = false
     roupas.each do |roupa|
-      if roupa.estampada?
-        tem = true
+      unless roupa.nil?
+        if roupa.estampada?
+          tem = true
+        end
       end
     end
     tem
@@ -47,7 +52,7 @@ class PecaDeRoupa < ActiveRecord::Base
     roupas.each do |roupa|
       usadas << [roupa, roupa.looks.count]
     end
-    usadas.sort_by { |i| i[1] }.reverse.first
+    usadas.sort_by { |i| i[1] }.first
   end
 
 end

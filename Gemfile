@@ -9,7 +9,7 @@ gem 'rails', '3.2.13'
 gem 'mysql2'
 gem 'ruleby'
 gem 'rake'
-
+gem 'debugger'
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
