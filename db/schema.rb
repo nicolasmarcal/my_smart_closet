@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130801001959) do
+ActiveRecord::Schema.define(:version => 20130818010903) do
 
   create_table "cors", :force => true do |t|
     t.string   "descricao"
@@ -45,6 +45,11 @@ ActiveRecord::Schema.define(:version => 20130801001959) do
   end
 
   add_index "faixa_temperaturas", ["usuario_id"], :name => "index_faixa_temperaturas_on_usuario_id"
+
+  create_table "faixa_temperaturas_peca_de_roupas", :force => true do |t|
+    t.integer "faixa_temperatura_id"
+    t.integer "peca_de_roupa_id"
+  end
 
   create_table "looks", :force => true do |t|
     t.integer  "usuario_id"
@@ -105,11 +110,10 @@ ActiveRecord::Schema.define(:version => 20130801001959) do
     t.integer  "marca_id"
     t.integer  "material_id"
     t.string   "caminho_imagem"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.integer  "ocasiao_id"
     t.integer  "tipo_roupa_id"
-    t.string   "classificacao_temperatura"
     t.integer  "cor_id"
     t.boolean  "estampada"
     t.integer  "modelo_roupa_id"

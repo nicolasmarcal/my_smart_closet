@@ -9,21 +9,38 @@ class PecaDeRoupa < ActiveRecord::Base
   belongs_to :cor, :class_name => "Cor", :foreign_key => "cor_id"
   has_and_belongs_to_many :looks
   has_and_belongs_to_many :tipo_corpos
+  has_and_belongs_to_many :faixa_temperaturas
 
   scope :para_ocasiao, lambda{|ocasiao_id| where(:ocasiao_id => ocasiao_id)}
+  
   scope :para_o_tipo_de_corpo, lambda{|tipo_corpo| joins("inner join tipo_roupas on tipo_roupas.id = peca_de_roupas.tipo_roupa_id")
                                                   .joins("inner join modelo_roupas on tipo_roupas.id = modelo_roupas.tipo_roupa_id")
                                                   .joins("inner join modelo_roupas_tipo_corpos on modelo_roupas_tipo_corpos.modelo_roupa_id = modelo_roupas.id")
                                                   .joins("inner join tipo_corpos on tipo_corpos.id = modelo_roupas_tipo_corpos.tipo_corpo_id")
                                                   .where("tipo_corpos.descricao = ?", tipo_corpo)}
   scope :do_usuario, lambda{|usuario_id| where(:usuario_id => usuario_id)}
-  scope :para_o_clima, lambda{ |cod_temperatura| where(:classificacao_temperatura => cod_temperatura) }
+  
+  scope :para_o_clima, lambda{ |temperatura_id| joins(:faixa_temperaturas).
+            where("faixa_temperaturas.id" => temperatura_id) }
+  
   scope :vestidos, joins(:tipo_roupa).where("tipo_roupas.tipo_roupa = 'VESTIDO'")
+  
   scope :sapatos, joins(:tipo_roupa).where("tipo_roupas.tipo_roupa = 'SAPATO'")
+  
   scope :com_cor, lambda{ |cor_id| where(:cor_id => cor_id)}
+  
   scope :sem_estampa, where(:estampada => false)
+  
+  scope :do_material, lambda{ |material_id| joins(:material).where("materials.id = ?", material_id)}
+  
   scope :casacos, joins("inner join tipo_roupas on tipo_roupas.id = peca_de_roupas.tipo_roupa_id")
                   .where("tipo_roupas.tipo_roupa = 'CASACO' ")
+  
+  scope :calcas, joins("inner join tipo_roupas on tipo_roupas.id = peca_de_roupas.tipo_roupa_id")
+                  .where("tipo_roupas.tipo_roupa = 'CALCA' ")
+
+  scope :camisas, joins("inner join tipo_roupas on tipo_roupas.id = peca_de_roupas.tipo_roupa_id")
+                  .where("tipo_roupas.tipo_roupa = 'CAMISA' ")
 
   def self.tem_estampa?(roupas)
     tem = false
@@ -53,6 +70,10 @@ class PecaDeRoupa < ActiveRecord::Base
       usadas << [roupa, roupa.looks.count]
     end
     usadas.sort_by { |i| i[1] }.first
+  end
+
+  def self.calcas_jeans
+    self.calcas.do_material(Material.jeans)
   end
 
 end

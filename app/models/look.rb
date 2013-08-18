@@ -15,7 +15,7 @@ class Look < ActiveRecord::Base
     @composicao = []
     @temperatura = self.usuario.get_faixa_temperatura(self.temperatura)
   	self.usuario.carregar_importancias_look.each do |importancia|
-  		case importancia[1]
+      case importancia[1]
   		when "temperatura"
   			@roupas = PecaDeRoupa.where(:id => @roupas.collect{ |r| r.id }).para_o_clima @temperatura
   		when "humor"
@@ -28,22 +28,31 @@ class Look < ActiveRecord::Base
         vestido = PecaDeRoupa.menos_usada(PecaDeRoupa.vestidos.where(:id => @roupas.collect{ |r| r.id }))
         @composicao << vestido.first unless vestido.nil?
         @cores = Cor.cores_harmonicas @composicao.first.cor
-        sapato = PecaDeRoupa.menos_usada(PecaDeRoupa.sapatos.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id}))
-        @composicao << sapato.first unless sapato.nil?
-        if @temperatura == FaixaTemperatura::FRIO || @temperatura == FaixaTemperatura::MUITO_FRIO || @temperatura == FaixaTemperatura::NORMAL
-          if PecaDeRoupa.tem_estampa?(@composicao)
-            casaco = PecaDeRoupa.menos_usada(PecaDeRoupa.casacos.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id}))
-          else
-            casaco = PecaDeRoupa.menos_usada(PecaDeRoupa.casacos.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id}).sem_estampa)
-          end
-          @composicao << casaco.first unless casaco.nil?
-        end
       else
-        
+        calcas = PecaDeRoupa.calcas.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id})
+        if get_ocasiao.is_casual? or get_ocasiao.is_despojado?
+          calcas += PecaDeRoupa.calcas.do_material(Material.jeans)
+        end
+        calca = PecaDeRoupa.menos_usada(calcas)
+        @composicao << calca.first unless calca.nil?
+        camisa = PecaDeRoupa.menos_usada(PecaDeRoupa.camisas.where(:id => @roupas.collect{ |r| r.id }))
+        @composicao << camisa.first unless camisa.nil?
       end
     else
 
     end
+    if @temperatura == FaixaTemperatura::FRIO || @temperatura == FaixaTemperatura::MUITO_FRIO || @temperatura == FaixaTemperatura::NORMAL
+      if PecaDeRoupa.tem_estampa?(@composicao)
+        casaco = PecaDeRoupa.menos_usada(PecaDeRoupa.casacos.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id}))
+      else
+        casaco = PecaDeRoupa.menos_usada(PecaDeRoupa.casacos.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id}).sem_estampa)
+      end
+      @composicao << casaco.first unless casaco.nil?
+    end
+
+    sapato = PecaDeRoupa.menos_usada(PecaDeRoupa.sapatos.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id}))
+    @composicao << sapato.first unless sapato.nil?
+
     @composicao.each do |roupa|
       self.peca_de_roupas << roupa
     end

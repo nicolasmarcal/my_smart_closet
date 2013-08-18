@@ -22,6 +22,6 @@ class Usuario < ActiveRecord::Base
   end
 
   def get_faixa_temperatura(temperatura)
-    self.faixa_temperaturas.where("? >= faixa_min and ? <= faixa_max", temperatura, temperatura).first.classificacao_temperatura
+    self.faixa_temperaturas.where("? >= faixa_min and ? <= faixa_max", temperatura, temperatura).first
   end
 end
