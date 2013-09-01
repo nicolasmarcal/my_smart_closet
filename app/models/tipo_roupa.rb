@@ -12,7 +12,7 @@ class TipoRoupa < ActiveRecord::Base
   	"SAPATO" => "Sapato"
   }
   def vestido?
-  	self.descricao == "Vestido"
+  	self.tipo_roupa == "VESTIDO"
   end
 
   def parte_de_baixo?

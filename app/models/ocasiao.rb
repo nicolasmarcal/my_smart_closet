@@ -1,10 +1,17 @@
+#encoding:utf-8
 class Ocasiao < ActiveRecord::Base
   has_many :usuarios
   has_many :destinos
+  has_and_belongs_to_many :modelo_roupas
 
   TIPOS_OCASIAO = {
-    "FORMAL" => "Formal",
-    "CASUAL" => "Casual",
+    "FORMAL" => "Formal Evento",
+    "FORMAL_TRABALHO" => "Formal Trabalho",
+    "FORMAL_ENTREVISTA" => "Formal Entrevista de Emprego",
+    "CASUAL" => "Casual Trabalho",
+    "CASUAL_PASSEIO" => "Casual Passeio",
+    "CASUAL_BALADA" => "Casual Balada",
+    "CASUAL_REUNIAO_FAMILIA" => "Casual Reunião em Família",
     "ESPORTE" => "Esporte",
     "DESPOJADO" => "Despojado"
   }

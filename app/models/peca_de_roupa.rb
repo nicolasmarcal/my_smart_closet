@@ -4,7 +4,7 @@ class PecaDeRoupa < ActiveRecord::Base
   belongs_to :estilo
   belongs_to :marca
   belongs_to :material
-  belongs_to :ocasiao, :class_name => "Ocasiao", :foreign_key => "ocasiao_id"
+  #belongs_to :ocasiao, :class_name => "Ocasiao", :foreign_key => "ocasiao_id"
   belongs_to :tipo_roupa, :class_name => "TipoRoupa", :foreign_key => "tipo_roupa_id"
   belongs_to :cor, :class_name => "Cor", :foreign_key => "cor_id"
   has_and_belongs_to_many :looks

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130818010903) do
+ActiveRecord::Schema.define(:version => 20130820224403) do
 
   create_table "cors", :force => true do |t|
     t.string   "descricao"
@@ -86,8 +86,14 @@ ActiveRecord::Schema.define(:version => 20130818010903) do
   create_table "modelo_roupas", :force => true do |t|
     t.string   "descricao"
     t.integer  "tipo_roupa_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.string   "descricao_modelo"
+  end
+
+  create_table "modelo_roupas_ocasiaos", :force => true do |t|
+    t.integer "modelo_roupa_id"
+    t.integer "ocasiao_id"
   end
 
   create_table "modelo_roupas_tipo_corpos", :force => true do |t|

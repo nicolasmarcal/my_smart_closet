@@ -1,7 +1,7 @@
 require 'ruleby'
 class Look < ActiveRecord::Base
   belongs_to :usuario, :class_name => "Usuario", :foreign_key => "usuario_id"
-  belongs_to :destino, :class_name => "Destino", :foreign_key => "destino_id"
+  # belongs_to :destino, :class_name => "Destino", :foreign_key => "destino_id"
   belongs_to :ocasiao, :class_name => "Ocasiao", :foreign_key => "ocasiao_id"
   has_and_belongs_to_many :peca_de_roupas
   belongs_to :faixa_temperatura, :class_name => "FaixaTemperatura"
@@ -11,7 +11,7 @@ class Look < ActiveRecord::Base
   	@roupas = PecaDeRoupa.scoped
     @roupas = @roupas.do_usuario self.usuario
   	@roupas = @roupas.para_o_tipo_de_corpo self.usuario.tipo_corpo.descricao
-  	@roupas = @roupas.para_ocasiao get_ocasiao
+  	@roupas = @roupas.para_ocasiao ocasiao
     @composicao = []
     @temperatura = self.usuario.get_faixa_temperatura(self.temperatura)
   	self.usuario.carregar_importancias_look.each do |importancia|
@@ -56,10 +56,6 @@ class Look < ActiveRecord::Base
     @composicao.each do |roupa|
       self.peca_de_roupas << roupa
     end
-  end
-
-  def get_ocasiao
-    self.destino.is_trabalho? ? self.usuario.ocasiao_trabalho : self.destino.ocasiao
   end
 
 end

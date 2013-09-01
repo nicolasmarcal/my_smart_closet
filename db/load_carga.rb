@@ -17,16 +17,54 @@ roupas = PecaDeRoupa.create!([{
 		:descricao => "Vestido",
 		:ocasiao_id => Ocasiao.where(:tipo_ocasiao => "FORMAL").first.id,
 		:tipo_roupa_id => TipoRoupa.find_by_tipo_roupa("VESTIDO").id,
-		:classificacao_temperatura => FaixaTemperatura::NORMAL,
 		:cor_id => Cor.find(2).id,
 		:estampada => true,
 		:modelo_roupa_id => ModeloRoupa.find_by_descricao("Vestido Alfaiataria").id
 	},{
-		:id_android => 1, 
+		:id_android => 2, 
 		:descricao => "Sapatilha que gosto",
 		:ocasiao_id => Ocasiao.where(:tipo_ocasiao => "FORMAL").first.id,
 		:tipo_roupa_id => TipoRoupa.find_by_tipo_roupa("SAPATO").id,
-		:classificacao_temperatura => FaixaTemperatura::NORMAL,
+		:cor_id => Cor.find(4).id,
+		:estampada => true,
+		:modelo_roupa_id => ModeloRoupa.find_by_descricao("Sapatilha").id
+	},{
+		:id_android => 2, 
+		:descricao => "Sapatilha que gosto",
+		:ocasiao_id => Ocasiao.where(:tipo_ocasiao => "FORMAL").first.id,
+		:tipo_roupa_id => TipoRoupa.find_by_tipo_roupa("SAPATO").id,
+		:cor_id => Cor.find(4).id,
+		:estampada => true,
+		:modelo_roupa_id => ModeloRoupa.find_by_descricao("Sapatilha").id
+	},{
+		:id_android => 2, 
+		:descricao => "Sapatilha que gosto",
+		:ocasiao_id => Ocasiao.where(:tipo_ocasiao => "FORMAL").first.id,
+		:tipo_roupa_id => TipoRoupa.find_by_tipo_roupa("SAPATO").id,
+		:cor_id => Cor.find(4).id,
+		:estampada => true,
+		:modelo_roupa_id => ModeloRoupa.find_by_descricao("Sapatilha").id
+	},{
+		:id_android => 2, 
+		:descricao => "Sapatilha que gosto",
+		:ocasiao_id => Ocasiao.where(:tipo_ocasiao => "FORMAL").first.id,
+		:tipo_roupa_id => TipoRoupa.find_by_tipo_roupa("SAPATO").id,
+		:cor_id => Cor.find(4).id,
+		:estampada => true,
+		:modelo_roupa_id => ModeloRoupa.find_by_descricao("Sapatilha").id
+	},{
+		:id_android => 2, 
+		:descricao => "Sapatilha que gosto",
+		:ocasiao_id => Ocasiao.where(:tipo_ocasiao => "FORMAL").first.id,
+		:tipo_roupa_id => TipoRoupa.find_by_tipo_roupa("SAPATO").id,
+		:cor_id => Cor.find(4).id,
+		:estampada => true,
+		:modelo_roupa_id => ModeloRoupa.find_by_descricao("Sapatilha").id
+	},{
+		:id_android => 2, 
+		:descricao => "Sapatilha que gosto",
+		:ocasiao_id => Ocasiao.where(:tipo_ocasiao => "FORMAL").first.id,
+		:tipo_roupa_id => TipoRoupa.find_by_tipo_roupa("SAPATO").id,
 		:cor_id => Cor.find(4).id,
 		:estampada => true,
 		:modelo_roupa_id => ModeloRoupa.find_by_descricao("Sapatilha").id
