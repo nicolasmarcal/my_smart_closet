@@ -10,6 +10,7 @@ class Ocasiao < ActiveRecord::Base
     "FORMAL_ENTREVISTA" => "Formal Entrevista de Emprego",
     "CASUAL" => "Casual Trabalho",
     "CASUAL_PASSEIO" => "Casual Passeio",
+    "CASUAL_TRABALHO" => "Casual Trabalho",
     "CASUAL_BALADA" => "Casual Balada",
     "CASUAL_REUNIAO_FAMILIA" => "Casual Reunião em Família",
     "ESPORTE" => "Esporte",

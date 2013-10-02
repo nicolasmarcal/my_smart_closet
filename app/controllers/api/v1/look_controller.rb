@@ -18,11 +18,10 @@ class Api::V1::LookController < ApplicationController
 	def gerar_look
 		@look = Look.new
 		
-		@look.usuario_id = params[:usuario_id]
-		@look.destino_id = params[:destino_id]
+		@look.usuario_id = Usuario.find_by_email(params[:email]).try(:id)
 		@look.ocasiao_id = params[:ocasiao_id]
 		@look.temperatura = params[:temperatura]
-		@look.humor_usuario = params[:humor]
+		#@look.humor_usuario = params[:humor]
 		@look.vestido = params[:vestido]
 		
 
@@ -30,6 +29,17 @@ class Api::V1::LookController < ApplicationController
 			@look.gerar_look
 		end
 
-		render :json => @look.to_json
+		@result = { :look => @look.id, :roupas => [] }
+
+		@look.peca_de_roupas.each do |roupa|
+			@result[:roupas] << { :id_android => roupa.id_android,
+														:modelo => roupa.modelo_roupa.descricao,
+														:cor => roupa.cor.descricao }
+		end
+		render :json => @result.to_json
+	end
+
+	def show
+		
 	end
 end

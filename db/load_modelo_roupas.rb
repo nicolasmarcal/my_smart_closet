@@ -10,7 +10,7 @@ triangulo = TipoCorpo.create!(:descricao => "Triângulo")
 formal_evento = Ocasiao.find_by_tipo_ocasiao("FORMAL")
 formal_trabalho = Ocasiao.find_by_tipo_ocasiao("FORMAL_TRABALHO")
 formal_entrevista = Ocasiao.find_by_tipo_ocasiao("FORMAL_ENTREVISTA")
-casual_trabalho = Ocasiao.find_by_tipo_ocasiao("CASUAL_TRABALHO")
+casual_trabalho = Ocasiao.find_by_tipo_ocasiao("CASUAL")
 casual_passeio = Ocasiao.find_by_tipo_ocasiao("CASUAL_PASSEIO")
 
 ocasioes = [formal_evento, formal_trabalho, formal_entrevista, casual_trabalho, casual_passeio]

@@ -10,15 +10,17 @@ class Cor < ActiveRecord::Base
   def self.cores_harmonicas(cor_param)
   	cores = []
   	if cor_param.proxima_cor.nil?
-  		cores = Cor.order("id DESC").limit(5)
+  		cores = Cor.order("id DESC").limit(10)
   	elsif cor_param.cor_anterior.nil?
-  		cores = Cor.limit(5)
+  		cores = Cor.limit(10)
   	else
   		cores << cor_param
   		cores << cor_param.proxima_cor unless cor_param.proxima_cor.nil?
-  		cores << cor_param.proxima_cor.proxima_cor unless cor_param.proxima_cor.proxima_cor.nil?
+      cores << cor_param.proxima_cor.proxima_cor unless cor_param.proxima_cor.proxima_cor.nil?
+  		cores << cor_param.proxima_cor.proxima_cor.proxima_cor unless cor_param.proxima_cor.proxima_cor.proxima_cor.nil?
   		cores << cor_param.cor_anterior unless cor_param.cor_anterior.nil?
-  		cores << cor_param.cor_anterior.cor_anterior unless cor_param.cor_anterior.cor_anterior.nil?
+      cores << cor_param.cor_anterior.cor_anterior unless cor_param.cor_anterior.cor_anterior.nil?
+  		cores << cor_param.cor_anterior.cor_anterior.cor_anterior unless cor_param.cor_anterior.cor_anterior.cor_anterior.nil?
   	end
   	cores << Cor.de_roupa.preto.first
   	cores << Cor.de_roupa.branco.first

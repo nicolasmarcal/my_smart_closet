@@ -10,8 +10,8 @@ class Look < ActiveRecord::Base
   def gerar_look
   	@roupas = PecaDeRoupa.scoped
     @roupas = @roupas.do_usuario self.usuario
-  	@roupas = @roupas.para_o_tipo_de_corpo self.usuario.tipo_corpo.descricao
-  	@roupas = @roupas.para_ocasiao ocasiao
+  	@roupas = @roupas.para_o_tipo_de_corpo self.usuario.tipo_corpo.id
+  	@roupas = @roupas.para_ocasiao ocasiao.tipo_ocasiao
     @composicao = []
     @temperatura = self.usuario.get_faixa_temperatura(self.temperatura)
   	self.usuario.carregar_importancias_look.each do |importancia|
@@ -29,19 +29,20 @@ class Look < ActiveRecord::Base
         @composicao << vestido.first unless vestido.nil?
         @cores = Cor.cores_harmonicas @composicao.first.cor
       else
-        calcas = PecaDeRoupa.calcas.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id})
-        if get_ocasiao.is_casual? or get_ocasiao.is_despojado?
-          calcas += PecaDeRoupa.calcas.do_material(Material.jeans)
+        calcas = PecaDeRoupa.calcas.where(:id => @roupas.collect{ |r| r.id })
+        if ocasiao.is_casual? or ocasiao.is_despojado?
+          #calcas += PecaDeRoupa.calcas.do_material(Material.jeans)
         end
         calca = PecaDeRoupa.menos_usada(calcas)
         @composicao << calca.first unless calca.nil?
-        camisa = PecaDeRoupa.menos_usada(PecaDeRoupa.camisas.where(:id => @roupas.collect{ |r| r.id }))
+        @cores = Cor.cores_harmonicas @composicao.first.cor
+        camisa = PecaDeRoupa.menos_usada(PecaDeRoupa.camisas.com_cor(@cores.collect{|c| c.id}).where(:id => @roupas.collect{ |r| r.id }))
         @composicao << camisa.first unless camisa.nil?
       end
     else
 
     end
-    if @temperatura == FaixaTemperatura::FRIO || @temperatura == FaixaTemperatura::MUITO_FRIO || @temperatura == FaixaTemperatura::NORMAL
+    if @temperatura.classificacao_temperatura == FaixaTemperatura::FRIO || @temperatura.classificacao_temperatura == FaixaTemperatura::MUITO_FRIO || @temperatura.classificacao_temperatura == FaixaTemperatura::NORMAL
       if PecaDeRoupa.tem_estampa?(@composicao)
         casaco = PecaDeRoupa.menos_usada(PecaDeRoupa.casacos.where(:id => @roupas.collect{ |r| r.id }).com_cor(@cores.collect{|c| c.id}))
       else
