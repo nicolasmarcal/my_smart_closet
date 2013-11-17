@@ -1,5 +1,5 @@
 class PecaDeRoupa < ActiveRecord::Base
-  attr_accessible :id_android, :descricao, :usuario_id, :estilo_id, :marca_id, :material_id, :caminho_imagem, :ocasiao_id, :tipo_roupa_id, :classificacao_temperatura, :cor_id, :estampada, :modelo_roupa_id
+  attr_accessible :id_android, :descricao, :usuario_id, :estilo_id, :marca_id, :material_id, :caminho_imagem, :ocasiao_id, :tipo_roupa_id, :classificacao_temperatura, :cor_id, :estampada, :modelo_roupa_id, :faixa_temperaturas
   belongs_to :usuario
   belongs_to :estilo
   belongs_to :marca
@@ -9,6 +9,7 @@ class PecaDeRoupa < ActiveRecord::Base
   belongs_to :cor, :class_name => "Cor", :foreign_key => "cor_id"
   has_and_belongs_to_many :looks
   has_and_belongs_to_many :faixa_temperaturas
+  #TODO comentar relacionamento
   has_many :ocasiaos, :through => :modelo_roupa
   has_many :tipo_corpos, :through => :modelo_roupa
 

@@ -124,3 +124,5 @@ cores = Cor.create!([{
 	cores.each_with_index do |cor, index|
 		cor.update_attribute(:proxima_cor_id, cores[index + 1].id) if index < cores.size and !cores[index+1].nil?
 	end
+
+	Cor.last.update_attribute :proxima_cor_id, Cor.first.id

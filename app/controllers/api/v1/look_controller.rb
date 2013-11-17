@@ -22,8 +22,8 @@ class Api::V1::LookController < ApplicationController
 		@look.ocasiao_id = params[:ocasiao_id]
 		@look.temperatura = params[:temperatura]
 		#@look.humor_usuario = params[:humor]
-		@look.vestido = params[:vestido]
-		
+		@look.vestido = (params[:vestido] == "true")
+
 
 		if @look.save
 			@look.gerar_look
@@ -33,6 +33,7 @@ class Api::V1::LookController < ApplicationController
 
 		@look.peca_de_roupas.each do |roupa|
 			@result[:roupas] << { :id_android => roupa.id_android,
+														:caminho_imagem => roupa.caminho_imagem,
 														:modelo => roupa.modelo_roupa.descricao,
 														:cor => roupa.cor.descricao }
 		end

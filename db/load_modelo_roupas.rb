@@ -341,4 +341,7 @@ tipos_corpo.each do |tipo_corpo|
   vestido_tubinho.tipo_corpos << tipo_corpo
   blazer.tipo_corpos << tipo_corpo
   jaqueta_couro.tipo_corpos << tipo_corpo
+  camisas.each do |camisa|
+    camisa.tipo_corpos << tipo_corpo
+  end
 end

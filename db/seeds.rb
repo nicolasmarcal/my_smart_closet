@@ -9,3 +9,4 @@ TipoRoupa::TIPOS_ROUPA.keys.each do |key|
 end
 
 load("db/load_modelo_roupas.rb")
+load("db/load_carga.rb")
